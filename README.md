@@ -25,3 +25,6 @@
 ```bash
 gradle --no-daemon assembleDebug
 ```
+
+
+Build configuration updated to use AGP built-in Kotlin support.
