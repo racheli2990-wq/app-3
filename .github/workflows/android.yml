@@ -1,4 +1,4 @@
-name: LifeVault Android APK
+name: NOVA PLAYER Android APK
 on:
   push:
     branches: [ main ]
@@ -7,7 +7,6 @@ permissions:
   contents: write
 jobs:
   build:
-    name: Build and publish LifeVault APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,15 +22,15 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lifevault-debug-apk
+          name: nova-player-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
       - name: Publish APK release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: lifevault-build-${{ github.run_number }}
-          name: LifeVault Android APK
-          body: LifeVault offline Android app, debug APK for manual installation.
+          tag_name: nova-player-build-${{ github.run_number }}
+          name: NOVA PLAYER Android APK
+          body: NOVA PLAYER offline media player debug APK.
           prerelease: true
           files: app/build/outputs/apk/debug/app-debug.apk
