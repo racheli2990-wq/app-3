@@ -245,9 +245,9 @@ public class MainActivity extends Activity {
         modelHead.addView(modelText, new LinearLayout.LayoutParams(0, -2, 1));
         modelCard.addView(modelHead);
         LinearLayout buttons = row();
-        TextView import = button("בחירת מודל .litertlm", PURPLE, Color.WHITE);
-        import.setOnClickListener(v -> pickModel());
-        buttons.addView(import);
+        TextView importModelButton = button("בחירת מודל .litertlm", PURPLE, Color.WHITE);
+        importModelButton.setOnClickListener(v -> pickModel());
+        buttons.addView(importModelButton);
         TextView reload = button("טעינה", Color.rgb(239, 237, 255), PURPLE);
         reload.setOnClickListener(v -> loadModel());
         LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(-2, dp(42));
