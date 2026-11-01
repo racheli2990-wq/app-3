@@ -1,6 +1,6 @@
 package com.nova.player;
 
-import android.app.Activity;
+import androidx.activity.ComponentActivity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +20,7 @@ import androidx.media3.ui.PlayerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ComponentActivity {
     private static final int BG=Color.rgb(10,13,22), PANEL=Color.rgb(22,27,41), TEXT=Color.rgb(241,244,252), MUTED=Color.rgb(145,154,177), ACCENT=Color.rgb(116,94,255), CYAN=Color.rgb(62,213,202);
     private ExoPlayer player;
     private PlayerView playerView;
@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     private void play(Uri uri){ currentUri=uri; if(player==null) player=new ExoPlayer.Builder(this).build(); playerView.setPlayer(player); MediaItem item=MediaItem.fromUri(uri); player.setMediaItem(item); player.prepare(); player.play(); nowPlaying.setText("▶  "+displayName(uri)); }
     private void attachSubtitle(){ if(currentUri==null){toast("בחרי קודם קובץ מדיה");return;} if(player==null)return; MediaItem.SubtitleConfiguration sub=new MediaItem.SubtitleConfiguration.Builder(subtitleUri).setMimeType(subtitleUri.toString().toLowerCase().endsWith(".vtt")?MimeTypes.TEXT_VTT:MimeTypes.APPLICATION_SUBRIP).setLanguage("und").setSelectionFlags(1).build(); player.setMediaItem(new MediaItem.Builder().setUri(currentUri).setSubtitleConfigurations(java.util.Collections.singletonList(sub)).build()); player.prepare(); player.play(); }
     private void seek(long ms){if(player!=null)player.seekTo(Math.max(0,player.getCurrentPosition()+ms));}
-    private void speedDialog(){ if(player==null)return; String[] opts={"0.5×","0.75×","1×","1.25×","1.5×","2×"}; float[] speeds={.5f,.75f,1f,1.25f,1.5f,2f}; new AlertDialog.Builder(this).setTitle("מהירות ניגון").setItems(opts,(d,w)->player.setPlaybackSpeed(speeds[w])).show(); }
+    private void speedDialog(){ if(player==null)return; String[] opts={"0.5×","0.75×","1×","1.25×","1.5×","2×"}; float[] speeds={.5f,.75f,1f,1.25f,1.5f,2f}; new AlertDialog.Builder(this).setTitle("מהירות ניגון").setItems(opts,(d,w)->player.setPlaybackParameters(new androidx.media3.common.PlaybackParameters(speeds[w]))).show(); }
     private void settings(){ LinearLayout box=col(); box.setPadding(dp(18),dp(8),dp(18),dp(8)); box.addView(label("מודל תמלול מקומי",17,TEXT,true)); box.addView(label("ייבאי קובץ מודל מהמכשיר. בחירת קובץ שומרת אליו גישה מקומית בלבד.",12,MUTED,false)); modelStatus=label("",12,CYAN,false); box.addView(modelStatus); updateModel(); new AlertDialog.Builder(this).setTitle("הגדרות NOVA").setView(box).setPositiveButton("בחירת מודל", (d,w)->pickModel.launch(new String[]{"application/octet-stream","*/*"})).setNegativeButton("סגירה",null).show(); }
     private void updateModel(){ if(modelStatus!=null) modelStatus.setText(modelUri==null?"לא נבחר מודל עדיין":"מודל נבחר: "+displayName(modelUri)); }
     private boolean isVideo(Uri u){String s=u.toString().toLowerCase();return s.contains("video")||s.endsWith(".mp4")||s.endsWith(".mkv")||s.endsWith(".webm")||s.endsWith(".mov");}
