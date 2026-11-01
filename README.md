@@ -1,5 +1,7 @@
 # LifeVault – הכספת האישית שלך
 
+> Build pipeline enabled: every update to `main` creates an installable Android APK.
+
 אפליקציית Android מקומית בעברית: פתקים, משימות, כספת מסמכים ועוזר AI.
 
 ## תכונות
